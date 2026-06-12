@@ -7,30 +7,30 @@ class Scheduler:
 
 
     def __init__(
-    self,
-    teamA_men,
-    teamB_men,
-    teamA_women,
-    teamB_women,
-    courts,
-    rounds,
-    min_games
-):
+        self,
+        teamA_men,
+        teamB_men,
+        teamA_women,
+        teamB_women,
+        courts,
+        rounds,
+        min_games
+    ):
 
-    self.courts = courts
-    self.rounds = rounds
-    self.min_games = min_games
+        self.courts = courts
+        self.rounds = rounds
+        self.min_games = min_games
 
-    self.AM = teamA_men
-    self.BM = teamB_men
+        self.AM = teamA_men
+        self.BM = teamB_men
 
-    self.AW = teamA_women
-    self.BW = teamB_women
+        self.AW = teamA_women
+        self.BW = teamB_women
 
-    self.players = (
-        self.AM + self.BM +
-        self.AW + self.BW
-    )
+        self.players = (
+            self.AM + self.BM +
+            self.AW + self.BW
+        )
 
 
     def generate(self, retry=10000):
