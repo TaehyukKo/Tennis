@@ -5,29 +5,33 @@ from itertools import combinations
 
 class Scheduler:
 
+
     def __init__(
-        self,
-        men_count,
-        women_count,
-        courts,
-        rounds,
-        min_games
-    ):
+    self,
+    teamA_men,
+    teamB_men,
+    teamA_women,
+    teamB_women,
+    courts,
+    rounds,
+    min_games
+):
 
-        self.courts = courts
-        self.rounds = rounds
-        self.min_games = min_games
+    self.courts = courts
+    self.rounds = rounds
+    self.min_games = min_games
 
-        self.AM = [f"A_M{i+1}" for i in range(men_count)]
-        self.BM = [f"B_M{i+1}" for i in range(men_count)]
+    self.AM = teamA_men
+    self.BM = teamB_men
 
-        self.AW = [f"A_W{i+1}" for i in range(women_count)]
-        self.BW = [f"B_W{i+1}" for i in range(women_count)]
+    self.AW = teamA_women
+    self.BW = teamB_women
 
-        self.players = (
-            self.AM + self.BM +
-            self.AW + self.BW
-        )
+    self.players = (
+        self.AM + self.BM +
+        self.AW + self.BW
+    )
+
 
     def generate(self, retry=10000):
 
@@ -348,10 +352,11 @@ def kakao_format(schedule):
 
 
 # 사용 예시
-
 sch = Scheduler(
-    men_count=6,
-    women_count=4,
+    teamA_men=["김철수", "이영희", "박민수", "정우성", "홍길동", "강백호"],
+    teamB_men=["최민준", "오세훈", "윤성호", "김동현", "박지성", "손흥민"],
+    teamA_women=["김민지", "박수진", "이지은", "최유나"],
+    teamB_women=["한지민", "송혜교", "김태희", "전지현"],
     courts=2,
     rounds=10,
     min_games=3
