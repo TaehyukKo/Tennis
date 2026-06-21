@@ -3,156 +3,241 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>일정 달력</title>
+<title>Gotennis 월간 달력</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-        font-family: "Pretendard", sans-serif;
-    }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Pretendard,sans-serif;
+}
 
-    body {
-        background: #f5f7fb;
-        padding: 30px;
-        display: flex;
-        justify-content: center;
-    }
+body{
+    background:#eef2f8;
+    padding:40px;
+}
 
-    .container {
-        width: 900px;
-    }
+.container{
+    max-width:1200px;
+    margin:auto;
+}
 
-    .header {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+.hero{
+    background:white;
+    border-radius:30px;
+    overflow:hidden;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
 
-    .calendar {
-        background: white;
-        border-radius: 20px;
-        padding: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    }
+.hero-left{
+    padding:50px;
+}
 
-    .month-title {
-        text-align: center;
-        font-size: 28px;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
+.logo{
+    font-size:72px;
+    font-weight:900;
+    color:#04113b;
+}
 
-    .weekdays,
-    .days {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 8px;
-    }
+.subtitle{
+    font-size:54px;
+    color:#5a7be9;
+    font-weight:800;
+    margin-top:10px;
+}
 
-    .weekday {
-        text-align: center;
-        font-weight: bold;
-        color: #666;
-        padding: 10px;
-    }
+.desc{
+    margin-top:20px;
+    font-size:24px;
+    color:#666;
+}
 
-    .day {
-        height: 80px;
-        background: #f6f8fc;
-        border-radius: 12px;
-        padding: 8px;
-        position: relative;
-    }
+.hero img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
 
-    .day-number {
-        font-size: 14px;
-    }
+.month-title{
+    margin:30px auto;
+    width:400px;
+    background:white;
+    border-radius:50px;
+    text-align:center;
+    padding:20px;
+    font-size:48px;
+    font-weight:800;
+}
 
-    .marked {
-        background: linear-gradient(
-            135deg,
-            #4f8cff,
-            #6a5cff
-        );
-        color: white;
-        font-weight: bold;
-    }
+.calendar{
+    background:white;
+    border-radius:24px;
+    padding:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
 
-    .marked::after {
-        content: "●";
-        position: absolute;
-        bottom: 8px;
-        right: 10px;
-        font-size: 12px;
-    }
+.weekdays,
+.days{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+}
+
+.weekday{
+    text-align:center;
+    padding:15px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.day{
+    border:1px solid #eceff5;
+    min-height:140px;
+    padding:10px;
+}
+
+.date{
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.event{
+    background:#dcebff;
+    border-radius:12px;
+    padding:10px;
+    font-size:14px;
+    margin-top:5px;
+    font-weight:600;
+}
+
+.summary{
+    margin-top:30px;
+    background:white;
+    border-radius:24px;
+    padding:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.summary h2{
+    margin-bottom:15px;
+}
+
+.event-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.summary-card{
+    background:#f5f7fb;
+    padding:12px 18px;
+    border-radius:14px;
+}
+
+.sun{
+    color:#e53935;
+}
+
+.sat{
+    color:#2962ff;
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
-    <div class="header">
-        <h1>일정 달력</h1>
+
+<div class="hero">
+
+    <div class="hero-left">
+        <div class="logo">🎾 Gotennis</div>
+        <div class="subtitle">월간 달력</div>
+        <div class="desc">
+            테니스와 함께하는 즐거운 한 달!
+        </div>
     </div>
 
-    <div class="calendar">
-        <div class="month-title" id="monthTitle"></div>
+    <img src="https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?q=80&w=1600"
+         alt="tennis">
 
-        <div class="weekdays">
-            <div class="weekday">일</div>
-            <div class="weekday">월</div>
-            <div class="weekday">화</div>
-            <div class="weekday">수</div>
-            <div class="weekday">목</div>
-            <div class="weekday">금</div>
-            <div class="weekday">토</div>
-        </div>
+</div>
 
-        <div class="days" id="days"></div>
+<div class="month-title">
+    2026년 6월
+</div>
+
+<div class="calendar">
+
+<div class="weekdays">
+    <div class="weekday sun">일</div>
+    <div class="weekday">월</div>
+    <div class="weekday">화</div>
+    <div class="weekday">수</div>
+    <div class="weekday">목</div>
+    <div class="weekday">금</div>
+    <div class="weekday sat">토</div>
+</div>
+
+<div class="days" id="days"></div>
+
+</div>
+
+<div class="summary">
+    <h2>📌 이번 달 일정 요약</h2>
+
+    <div class="event-list">
+        <div class="summary-card">6/12 교류전 (w 현대모비스)</div>
+        <div class="summary-card">6/18 교류전 (w 삼성화재)</div>
+        <div class="summary-card">6/24 교류전 (w 우리카드)</div>
+        <div class="summary-card">6/28 교류전 (w 대한항공)</div>
     </div>
 </div>
 
+</div>
+
 <script>
+
 const year = 2026;
-const month = 6; // 6월
+const month = 6;
 
-// 표시할 날짜들
-const markedDates = [
-    "2026-06-03",
-    "2026-06-07",
-    "2026-06-12",
-    "2026-06-18",
-    "2026-06-24",
-    "2026-06-28"
-];
+const events = {
+    12:"교류전<br>(w 현대모비스)",
+    18:"교류전<br>(w 삼성화재)",
+    24:"교류전<br>(w 우리카드)",
+    28:"교류전<br>(w 대한항공)"
+};
 
-document.getElementById("monthTitle").innerText =
-    `${year}년 ${month}월`;
+const daysEl = document.getElementById("days");
 
-const daysContainer = document.getElementById("days");
+const firstDay =
+    new Date(year, month-1, 1).getDay();
 
-const firstDay = new Date(year, month - 1, 1).getDay();
-const lastDate = new Date(year, month, 0).getDate();
+const lastDate =
+    new Date(year, month, 0).getDate();
 
-for (let i = 0; i < firstDay; i++) {
-    daysContainer.appendChild(document.createElement("div"));
+for(let i=0;i<firstDay;i++){
+    daysEl.innerHTML += "<div class='day'></div>";
 }
 
-for (let day = 1; day <= lastDate; day++) {
+for(let d=1; d<=lastDate; d++){
 
-    const cell = document.createElement("div");
-    cell.className = "day";
+    let eventHTML = "";
 
-    const dateString =
-        `${year}-${String(month).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
-
-    if (markedDates.includes(dateString)) {
-        cell.classList.add("marked");
+    if(events[d]){
+        eventHTML =
+        `<div class="event">${events[d]}</div>`;
     }
 
-    cell.innerHTML =
-        `<div class="day-number">${day}</div>`;
-
-    daysContainer.appendChild(cell);
+    daysEl.innerHTML += `
+    <div class="day">
+        <div class="date">${d}</div>
+        ${eventHTML}
+    </div>`;
 }
+
 </script>
 
 </body>
