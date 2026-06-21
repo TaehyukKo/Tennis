@@ -3,55 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gotennis 월간 달력</title>
+
+<title>Monthly Calendar</title>
 
 <style>
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Pretendard,sans-serif;
+    font-family:
+    "Pretendard",
+    "Noto Sans KR",
+    sans-serif;
 }
 
 body{
-    background:#eef2f8;
-    padding:40px;
+    background:#edf2f8;
+    display:flex;
+    justify-content:center;
+    padding:20px;
 }
 
-.container{
-    max-width:1200px;
-    margin:auto;
+#canvas{
+    width:1920px;
+    min-height:1080px;
 }
 
 .hero{
     background:white;
-    border-radius:30px;
+    border-radius:32px;
     overflow:hidden;
     display:grid;
-    grid-template-columns:1fr 1fr;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    grid-template-columns:45% 55%;
+    box-shadow:0 10px 40px rgba(0,0,0,.08);
 }
 
 .hero-left{
-    padding:50px;
+    padding:60px;
 }
 
 .logo{
-    font-size:72px;
+    font-size:82px;
     font-weight:900;
-    color:#04113b;
+    color:#071542;
 }
 
 .subtitle{
-    font-size:54px;
-    color:#5a7be9;
+    font-size:64px;
     font-weight:800;
+    color:#6585ff;
     margin-top:10px;
 }
 
 .desc{
-    margin-top:20px;
-    font-size:24px;
+    margin-top:25px;
+    font-size:28px;
     color:#666;
 }
 
@@ -62,21 +69,22 @@ body{
 }
 
 .month-title{
+    width:500px;
     margin:30px auto;
-    width:400px;
     background:white;
-    border-radius:50px;
+    border-radius:999px;
     text-align:center;
-    padding:20px;
+    padding:22px;
     font-size:48px;
     font-weight:800;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
 }
 
 .calendar{
     background:white;
-    border-radius:24px;
-    padding:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 10px 40px rgba(0,0,0,.08);
 }
 
 .weekdays,
@@ -87,156 +95,253 @@ body{
 
 .weekday{
     text-align:center;
-    padding:15px;
-    font-size:20px;
-    font-weight:bold;
+    font-size:24px;
+    font-weight:700;
+    padding:18px;
+    border-bottom:1px solid #ececec;
 }
 
 .day{
-    border:1px solid #eceff5;
-    min-height:140px;
-    padding:10px;
+    border:1px solid #f0f0f0;
+    min-height:170px;
+    padding:12px;
 }
 
 .date{
-    font-size:22px;
-    margin-bottom:8px;
+    font-size:24px;
+    margin-bottom:10px;
 }
 
 .event{
-    background:#dcebff;
-    border-radius:12px;
+    background:#dbe8ff;
+    border-radius:14px;
     padding:10px;
-    font-size:14px;
-    margin-top:5px;
+    font-size:16px;
     font-weight:600;
+    line-height:1.4;
 }
+
+.sun{ color:#e53935; }
+.sat{ color:#2962ff; }
 
 .summary{
-    margin-top:30px;
+    margin-top:25px;
     background:white;
     border-radius:24px;
-    padding:25px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    padding:24px;
+    box-shadow:0 10px 40px rgba(0,0,0,.08);
 }
 
-.summary h2{
+.summary-title{
+    font-size:30px;
+    font-weight:800;
     margin-bottom:15px;
 }
 
-.event-list{
+.summary-list{
     display:flex;
+    gap:10px;
     flex-wrap:wrap;
-    gap:12px;
 }
 
-.summary-card{
-    background:#f5f7fb;
+.summary-item{
+    background:#f4f6fa;
     padding:12px 18px;
-    border-radius:14px;
+    border-radius:12px;
+    font-weight:600;
 }
 
-.sun{
-    color:#e53935;
+.footer{
+    text-align:center;
+    margin-top:20px;
+    color:#666;
+    font-size:20px;
 }
 
-.sat{
-    color:#2962ff;
-}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div id="canvas">
 
-<div class="hero">
+    <div class="hero">
 
-    <div class="hero-left">
-        <div class="logo">🎾 Gotennis</div>
-        <div class="subtitle">월간 달력</div>
-        <div class="desc">
-            테니스와 함께하는 즐거운 한 달!
+        <div class="hero-left">
+            <div class="logo" id="title"></div>
+            <div class="subtitle">월간 달력 🎾</div>
+            <div class="desc">
+                테니스와 함께하는 즐거운 한 달
+            </div>
         </div>
+
+        <img id="banner">
+
     </div>
 
-    <img src="https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?q=80&w=1600"
-         alt="tennis">
+    <div class="month-title" id="monthTitle"></div>
 
-</div>
+    <div class="calendar">
 
-<div class="month-title">
-    2026년 6월
-</div>
+        <div class="weekdays">
+            <div class="weekday sun">일</div>
+            <div class="weekday">월</div>
+            <div class="weekday">화</div>
+            <div class="weekday">수</div>
+            <div class="weekday">목</div>
+            <div class="weekday">금</div>
+            <div class="weekday sat">토</div>
+        </div>
 
-<div class="calendar">
+        <div class="days" id="days"></div>
 
-<div class="weekdays">
-    <div class="weekday sun">일</div>
-    <div class="weekday">월</div>
-    <div class="weekday">화</div>
-    <div class="weekday">수</div>
-    <div class="weekday">목</div>
-    <div class="weekday">금</div>
-    <div class="weekday sat">토</div>
-</div>
-
-<div class="days" id="days"></div>
-
-</div>
-
-<div class="summary">
-    <h2>📌 이번 달 일정 요약</h2>
-
-    <div class="event-list">
-        <div class="summary-card">6/12 교류전 (w 현대모비스)</div>
-        <div class="summary-card">6/18 교류전 (w 삼성화재)</div>
-        <div class="summary-card">6/24 교류전 (w 우리카드)</div>
-        <div class="summary-card">6/28 교류전 (w 대한항공)</div>
     </div>
-</div>
+
+    <div class="summary">
+        <div class="summary-title">
+            📌 이번 달 일정
+        </div>
+
+        <div class="summary-list" id="summary"></div>
+    </div>
+
+    <div class="footer">
+        🎾 오늘도 즐겁게, 테니스 하자!
+    </div>
 
 </div>
 
 <script>
 
-const year = 2026;
-const month = 6;
+/* =====================================================
+   CONFIG
+   여기만 수정하면 됨
+===================================================== */
 
-const events = {
-    12:"교류전<br>(w 현대모비스)",
-    18:"교류전<br>(w 삼성화재)",
-    24:"교류전<br>(w 우리카드)",
-    28:"교류전<br>(w 대한항공)"
+const CONFIG = {
+
+    title : "Gotennis",
+
+    year : 2026,
+
+    month : 6,
+
+    bannerImage :
+        "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?q=80&w=1600",
+
+    events : [
+
+        {
+            date : "2026-06-12",
+            text : "교류전 (w 현대모비스)"
+        },
+
+        {
+            date : "2026-06-18",
+            text : "교류전 (w 삼성화재)"
+        },
+
+        {
+            date : "2026-06-24",
+            text : "교류전 (w 우리카드)"
+        },
+
+        {
+            date : "2026-06-28",
+            text : "교류전 (w 대한항공)"
+        }
+
+    ]
 };
 
-const daysEl = document.getElementById("days");
+/* =====================================================
+   아래는 수정할 필요 없음
+===================================================== */
+
+title.textContent = CONFIG.title;
+banner.src = CONFIG.bannerImage;
+
+monthTitle.textContent =
+`${CONFIG.year}년 ${CONFIG.month}월`;
+
+const eventMap = {};
+
+CONFIG.events.forEach(e => {
+
+    const day =
+        Number(e.date.split("-")[2]);
+
+    eventMap[day] = e.text;
+
+});
+
+const daysEl =
+document.getElementById("days");
 
 const firstDay =
-    new Date(year, month-1, 1).getDay();
+new Date(
+    CONFIG.year,
+    CONFIG.month - 1,
+    1
+).getDay();
 
 const lastDate =
-    new Date(year, month, 0).getDate();
+new Date(
+    CONFIG.year,
+    CONFIG.month,
+    0
+).getDate();
 
 for(let i=0;i<firstDay;i++){
-    daysEl.innerHTML += "<div class='day'></div>";
+
+    const empty =
+    document.createElement("div");
+
+    empty.className="day";
+
+    daysEl.appendChild(empty);
 }
 
-for(let d=1; d<=lastDate; d++){
+for(let day=1; day<=lastDate; day++){
 
-    let eventHTML = "";
+    const div =
+    document.createElement("div");
 
-    if(events[d]){
-        eventHTML =
-        `<div class="event">${events[d]}</div>`;
+    div.className="day";
+
+    let html =
+    `<div class="date">${day}</div>`;
+
+    if(eventMap[day]){
+
+        html += `
+        <div class="event">
+            🎾 ${eventMap[day]}
+        </div>`;
     }
 
-    daysEl.innerHTML += `
-    <div class="day">
-        <div class="date">${d}</div>
-        ${eventHTML}
-    </div>`;
+    div.innerHTML = html;
+
+    daysEl.appendChild(div);
 }
+
+const summary =
+document.getElementById("summary");
+
+CONFIG.events.forEach(event => {
+
+    const div =
+    document.createElement("div");
+
+    div.className =
+    "summary-item";
+
+    div.textContent =
+    `${event.date.slice(5)} · ${event.text}`;
+
+    summary.appendChild(div);
+
+});
 
 </script>
 
