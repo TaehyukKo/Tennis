@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일정 달력</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: "Pretendard", sans-serif;
+    }
+
+    body {
+        background: #f5f7fb;
+        padding: 30px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .container {
+        width: 900px;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .calendar {
+        background: white;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .month-title {
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .weekdays,
+    .days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+    }
+
+    .weekday {
+        text-align: center;
+        font-weight: bold;
+        color: #666;
+        padding: 10px;
+    }
+
+    .day {
+        height: 80px;
+        background: #f6f8fc;
+        border-radius: 12px;
+        padding: 8px;
+        position: relative;
+    }
+
+    .day-number {
+        font-size: 14px;
+    }
+
+    .marked {
+        background: linear-gradient(
+            135deg,
+            #4f8cff,
+            #6a5cff
+        );
+        color: white;
+        font-weight: bold;
+    }
+
+    .marked::after {
+        content: "●";
+        position: absolute;
+        bottom: 8px;
+        right: 10px;
+        font-size: 12px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>일정 달력</h1>
+    </div>
+
+    <div class="calendar">
+        <div class="month-title" id="monthTitle"></div>
+
+        <div class="weekdays">
+            <div class="weekday">일</div>
+            <div class="weekday">월</div>
+            <div class="weekday">화</div>
+            <div class="weekday">수</div>
+            <div class="weekday">목</div>
+            <div class="weekday">금</div>
+            <div class="weekday">토</div>
+        </div>
+
+        <div class="days" id="days"></div>
+    </div>
+</div>
+
+<script>
+const year = 2026;
+const month = 6; // 6월
+
+// 표시할 날짜들
+const markedDates = [
+    "2026-06-03",
+    "2026-06-07",
+    "2026-06-12",
+    "2026-06-18",
+    "2026-06-24",
+    "2026-06-28"
+];
+
+document.getElementById("monthTitle").innerText =
+    `${year}년 ${month}월`;
+
+const daysContainer = document.getElementById("days");
+
+const firstDay = new Date(year, month - 1, 1).getDay();
+const lastDate = new Date(year, month, 0).getDate();
+
+for (let i = 0; i < firstDay; i++) {
+    daysContainer.appendChild(document.createElement("div"));
+}
+
+for (let day = 1; day <= lastDate; day++) {
+
+    const cell = document.createElement("div");
+    cell.className = "day";
+
+    const dateString =
+        `${year}-${String(month).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+
+    if (markedDates.includes(dateString)) {
+        cell.classList.add("marked");
+    }
+
+    cell.innerHTML =
+        `<div class="day-number">${day}</div>`;
+
+    daysContainer.appendChild(cell);
+}
+</script>
+
+</body>
+</html>
