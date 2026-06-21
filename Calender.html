@@ -9,15 +9,28 @@
 body{margin:0;background:#eef2f7;font-family:Arial,sans-serif;display:flex;justify-content:center}
 #canvas{width:1080px;min-height:1920px;background:#eef2f7;padding:30px}
 .hero{background:#fff;border-radius:24px;overflow:hidden}
-.hero img{width:100%;height:420px;object-fit:cover}
 .hero h1{margin:20px;font-size:56px}
 .hero h2{margin:20px;color:#5a78ff}
 .month{margin:20px auto;background:#fff;border-radius:999px;padding:16px;text-align:center;font-size:36px;width:320px}
 .calendar{background:#fff;border-radius:24px;padding:16px}
 .week,.days{display:grid;grid-template-columns:repeat(7,1fr)}
-.week div{font-weight:bold;text-align:center;padding:12px}
-.day{border:1px solid #eee;min-height:120px;padding:6px}
-.event{font-size:12px;background:#dcebff;border-radius:8px;padding:4px;margin-top:4px}
+.week div{font-weight:bold;text-align:center;padding:12px;font-size:24px}
+.sun{color:#e53935;}
+.sat{color:#2979ff;}
+.day{border:1px solid #eee;min-height:140px;padding:8px}
+.day-number{font-size:24px;font-weight:bold}
+.day.sun-day .day-number{color:#e53935}
+.day.sat-day .day-number{color:#2979ff}
+.day.holiday .day-number{color:#e53935}
+.event{
+font-size:22px;
+font-weight:600;
+background:#dcebff;
+border-radius:12px;
+padding:8px;
+margin-top:6px;
+line-height:1.4;
+}
 .summary{background:#fff;border-radius:24px;padding:16px;margin-top:20px}
 </style>
 </head>
@@ -28,38 +41,68 @@ const CONFIG={
  title:"Gotennis",
  year:2026,
  month:7,
- bannerImage:"https://images.unsplash.com/photo-1554068865-24cecd4e34b8?q=80&w=1200",
  events:[
-  {date:"2026-07-04",type:"교류전",text:"교류전 (w 현대모비스)"},
-  {date:"2026-07-12",type:"정모",text:"7월 정기모임"}
+  {date:"2026-07-05",text:"교류전 (w TMJ)"},
+  {date:"2026-07-12",text:"교류전 (w 현대모비스)"},
+  {date:"2026-07-26",text:"교류전 (w 아이엠테니스)"}
  ]
 };
+
+const HOLIDAYS=[
+ "2026-07-17"
+];
 
 const root=document.getElementById("canvas");
 root.innerHTML=`
 <div class="hero">
-<!--img src="${CONFIG.bannerImage}"-->
 <h1>${CONFIG.title}</h1>
 <h2>월간 달력 🎾</h2>
 </div>
 <div class="month">${CONFIG.year}년 ${CONFIG.month}월</div>
 <div class="calendar">
-<div class="week"><div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div></div>
+<div class="week">
+<div class="sun">일</div>
+<div>월</div>
+<div>화</div>
+<div>수</div>
+<div>목</div>
+<div>금</div>
+<div class="sat">토</div>
+</div>
 <div class="days" id="days"></div>
 </div>
 <div class="summary"><h3>이번 달 일정</h3><div id="summary"></div></div>`;
 
 const map={};
 CONFIG.events.forEach(e=>map[+e.date.split("-")[2]]=e.text);
+
 const days=document.getElementById("days");
 const first=new Date(CONFIG.year,CONFIG.month-1,1).getDay();
 const last=new Date(CONFIG.year,CONFIG.month,0).getDate();
+
 for(let i=0;i<first;i++) days.innerHTML+='<div class="day"></div>';
+
 for(let d=1;d<=last;d++){
- let e=map[d]?`<div class="event">${map[d]}</div>`:'';
- days.innerHTML+=`<div class="day"><b>${d}</b>${e}</div>`;
+ const dateStr=`${CONFIG.year}-${String(CONFIG.month).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+ const dayOfWeek=new Date(CONFIG.year,CONFIG.month-1,d).getDay();
+
+ let className="day";
+ if(dayOfWeek===0) className+=" sun-day";
+ if(dayOfWeek===6) className+=" sat-day";
+ if(HOLIDAYS.includes(dateStr)) className+=" holiday";
+
+ let e=map[d] ? `<div class="event">🎾 ${map[d]}</div>` : "";
+
+ days.innerHTML+=`
+ <div class="${className}">
+   <div class="day-number">${d}</div>
+   ${e}
+ </div>`;
 }
-document.getElementById("summary").innerHTML=CONFIG.events.map(e=>`<div>${e.date} · ${e.text}</div>`).join("");
+
+document.getElementById("summary").innerHTML=CONFIG.events.map(
+ e=>`<div>🎾 ${e.date} · ${e.text}</div>`
+).join("");
 
 window.addEventListener("load",()=>{
  setTimeout(async()=>{
